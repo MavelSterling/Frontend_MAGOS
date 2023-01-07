@@ -142,11 +142,12 @@
           </template>
         </sidenav-item>
       </li>
-      <li class="nav-item" @click=" usuario.desconectar() ">
+      <li class="nav-item" >
         <sidenav-item
           url="/signin"
           :class="getRoute() === 'signin' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'Sign In' : 'Cerrar sesión'"
+          navText= "Cerrar sesión"
+          @click=" desconectar() "
         >
           <template v-slot:icon>
             <i class="ni ni-single-copy-04 text-danger text-sm opacity-10"></i>
@@ -196,6 +197,14 @@ export default {
     getRoute() {
       const routeArr = this.$route.path.split("/");
       return routeArr[1];
+    },
+    desconectar() {
+      usuario.desconectar()
+      this.$forceUpdate()
+      setTimeout( () => {
+        alert('Espera')
+      },6000)
+      
     }
   }
 };

@@ -111,6 +111,7 @@ export default {
     this.$store.state.showSidenav = false;
     this.$store.state.showFooter = false;
     body.classList.remove("bg-gray-100");
+    this.usuario.desconectar();
   },
   beforeUnmount() {
     this.$store.state.hideConfigButton = false;

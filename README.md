@@ -19,9 +19,9 @@ export NODE_OPTIONS=--openssl-legacy-provider
 ~~~
 <br>
 
-Ejecutar el programa en la versión de desarrollo
+Ejecutar el programa en el local
 ~~~
-npm run dev
+npm run serve
 ~~~
 <br>
 

@@ -39,9 +39,11 @@
                 <input class="form-control " type="tel" placeholder="Teléfono" aria-label="Telefono"  v-model="telefono"/> 
                 <input class="form-control " type="text" placeholder="Ocupación" aria-label="Ocupacion" v-model="ocupacion" />
                 <input class="form-control " type="text" placeholder="Ciudad" aria-label="Ciudad" v-model="ciudad" />
+                <input class="form-control " type="text" placeholder="Dirección" aria-label="Direccion" v-model="direccion" />
                 <input class="form-control " type="email" placeholder="Correo electrónico" aria-label="Correo" v-model="email" />
                 <input class="form-control " type="password" placeholder="Contraseña" aria-label="Contraseña" v-model="password" />
-                <argon-checkbox checked>
+                <div>
+                  <input type="checkbox" checked="false" v-model="verificado">
                   <label class="form-check-label" for="flexCheckDefault">
                     Acepto
                    <!-- <a   
@@ -60,9 +62,10 @@
                   </label>
 
                   
-                </argon-checkbox>
+                </div>
                 <div class="text-center">
-                  <argon-button fullWidth color="dark" variant="gradient" class="my-4 mb-2" @click="registrarAsociado">Registrarse</argon-button>
+                  <button fullWidth color="dark" variant="gradient" :class="'my-4 mb-2 btn mb-0 '" @click="registrarAsociado" id="botonRegistro" :disabled="habilitarBoton()">Registrarse</button>
+                  <h6 class="text.success">{{mensaje}}</h6>
                 </div>
                 <p class="text-sm mt-3 mb-0">
                   ¿Tienes cuenta?
@@ -72,7 +75,7 @@
                   >Iniciar sesión</a>
                 </p>
               </form>
-              <h6 class="text.success">{{mensaje}}</h6>
+              
             </div>
           </div>
         </div>
@@ -92,7 +95,7 @@ import ArgonButton from "@/components/ArgonButton.vue";
 import Modal from "@/components/Modal.vue";
 import Conexion from '@/classes/Conexion.js'; 
 
-const body = document.getElementsByTagName("body")[0];
+const body = document.getElementsByTagName("body")[0]; 
 
 export default {
   name: "signup",
@@ -120,27 +123,32 @@ export default {
   },
   data() {
     return {
+      verificado: false,
       showModal: false,
-      // nombre : 'Alberto',
-      // apellido : 'Mujica',
-      // fecha : '1989-11-22',
-      // telefono : '3165672389',
-      // ocupacion : 'Presidente',
-      // ciudad : 'Cali',
-      // email : 'lordmujica07@gmail.com',
-      // password : 'lordmujica123',
-      // mensaje : '',
-      // documento : '1155433987'
-      nombre : '',
-      apellido : '',
-      fecha : '',
-      telefono : '',
-      ocupacion : '',
-      ciudad : '',
-      email : '',
-      password : '',
+      
+      nombre : 'Alberto',
+      apellido : 'Mujica',
+      fecha : '1989-11-22',
+      telefono : '3165672389',
+      ocupacion : 'Presidente',
+      ciudad : 'Cali',
+      email : 'lordmujica07@gmail.com',
+      password : 'lordmujica123',
       mensaje : '',
-      documento : ''
+      documento : '1155433987',
+      direccion : 'Cra 36 # 13 - 42'
+
+      // nombre : '',
+      // apellido : '',
+      // fecha : '',
+      // telefono : '',
+      // ocupacion : '',
+      // ciudad : '',
+      // email : '',
+      // password : '',
+      // mensaje : '',
+      // documento : '',
+      // direccion : ''
     }
   },
   methods : {
@@ -150,16 +158,25 @@ export default {
     },
     registrarAsociado( evento ) {
       evento.preventDefault()
-      Conexion.crearAsociado(this.email ,this.nombre, this.apellido, this.email, 'asociado', this.documento, this.password, this.fecha)
-        .then( resp => {
-          this.mensaje = 'Usuario registrado correctamente'
-          console.log( resp.data )
+      if( this.email && this.nombre && this.apellido && this.email && this.documento && this.password && this.fecha && this.direccion && this.ciudad && this.ocupacion && this.telefono){  
+        
+        Conexion.crearAsociado(this.email ,this.nombre, this.apellido, this.email, 'asociado', this.documento, this.password, this.fecha, this.ocupacion, this.ciudad, this.direccion, this.telefono )
+          .then( resp => { 
+            this.mensaje = 'Usuario registrado correctamente'
+            console.log( resp.data )
 
-        })
-        .catch( err => {
-          console.log( err )
-          this.mensaje = 'Sucedió un error'
-        })
+          })
+          .catch( err => {
+            console.log( err )
+            this.mensaje = 'Sucedió un error'
+          })
+      } else {
+        this.mensaje = 'Por favor rellenar todos los campos del registro'
+      }  
+    },
+    habilitarBoton(   ) {
+      //console.log(this.verificado)
+      return (!this.verificado)
     }
   }
 };
@@ -168,5 +185,15 @@ export default {
 <style scoped>
  input .form-control {
   margin: 10px 10px;
+ }
+
+ button:hover {
+  background: #93E773;
+  color: white;
+ }
+
+ h6 {
+  font-size: 12px;
+  color: gray;
  }
 </style>

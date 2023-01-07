@@ -8,7 +8,7 @@ class Usuario {
   _rol = 'null';  
   _password = 'null';  // No es necesario guardarla
   _fechaNacimiento = 'null';  
-  _documento = 0; 
+  _documento = 'null'; 
   _token = 'null'; 
 
 
@@ -114,7 +114,7 @@ class Usuario {
     this._rol = rol;   
     this._fechaNacimiento = fechaNacimiento;  
     this._documento =  documento; 
-    this._password = password;
+    //this._password = password;
   }
 
   // Método que se encarga de encontrar el objeto Usuario de un arreglo de usuarios según el email
@@ -133,6 +133,15 @@ class Usuario {
   // Método que elimina la única instancia de Usuario en el caso que éste se desconecte.
   desconectar() {
     delete Usuario.instance;
+    this._username = 'null';  
+    this._first_name = 'null';  
+    this._last_name = 'null';  
+    this._email = 'null';  
+    this._rol = 'null';   
+    this._fechaNacimiento = 'null';  
+    this._documento =  'null'; 
+    this._password = 'null';
+    this._token = 'null';
   }
 
   // Este método siempre tendrá que ejecutarse primero para asegurar que el usuario tenga todas sus credenciales correctas, sin importar la operación (una vez haya accedido satisfactoriamente)
